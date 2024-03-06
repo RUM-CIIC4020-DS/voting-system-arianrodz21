@@ -4,12 +4,13 @@ import data_structures.ArrayList;
 import interfaces.List;
 
 public class Ballot {
-	List<Candidate> Candidates;
+	List<Candidate>  Candidates;
 	int ballotNumber;
 	int validType = 0;
 	List<List<Integer>> cRanksID = new ArrayList<List<Integer>>();
 	List<Integer> ranks = new ArrayList<Integer>();
 	List<Integer> ids = new ArrayList<Integer>();
+	
 	/* Creates a ballot based on the line it receives. The format for line is
 	id#,candidate_name:candidate_rank . It also receives a List of all the candidates in the
 	elections.*/
