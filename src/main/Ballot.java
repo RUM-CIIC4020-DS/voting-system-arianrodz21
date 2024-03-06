@@ -1,15 +1,15 @@
 package main;
 
-
-import java.util.List;
-
-
+import data_structures.ArrayList;
+import interfaces.List;
 
 public class Ballot {
+	List<Candidate> Candidates;
 	int ballotNumber;
 	int validType = 0;
-	List<Integer> ranksID;
-	List<List<Integer>> cRanksID;
+	List<List<Integer>> cRanksID = new ArrayList<List<Integer>>();
+	List<Integer> ranks = new ArrayList<Integer>();
+	List<Integer> ids = new ArrayList<Integer>();
 	/* Creates a ballot based on the line it receives. The format for line is
 	id#,candidate_name:candidate_rank . It also receives a List of all the candidates in the
 	elections.*/
@@ -17,26 +17,51 @@ public class Ballot {
 		String[] temp = line.split(",");
 		ballotNumber = Integer.valueOf(temp[0]);
 		
-		if(temp.length == 0) {
+		if(temp.length == 1) {
 			validType = 1;
+			
 		}
-		for(int i = 1; i <= temp.length; i++) {
+
+		for(int i = 1; i < temp.length; i++) {
 			String[] temp2 = temp[i].split(":");
 			int id = Integer.valueOf(temp2[0]);
 			int rank = Integer.valueOf(temp2[1]);
 			
-			ranksID.add(id);
-			ranksID.add(rank);
-			cRanksID.add(ranksID);
+			List<Integer> ranksID = new ArrayList<Integer>();
 			
+			ranksID.add(id);
+			ids.add(id);
+			ranksID.add(rank);
+			ranks.add(rank);
+			cRanksID.add(ranksID);
 			
 			if(i != rank) {
 				validType = 2;
 			}
-		}
+		
+			for (int j = 0; j < ranks.size(); j++) {
+		            for (int h = j + 1; h < ranks.size(); h++) {
+		                if (ranks.get(j).equals(ranks.get(h))) {
+		                    validType = 2;
+		                }
+		            }
+		        }
+			for (int j = 0; j < ids.size(); j++) {
+	            for (int h = j + 1; h < ids.size(); h++) {
+	                if (ids.get(j).equals(ids.get(h))) {
+	                    validType = 2;
+	                }
+	            }
+	        }
+			
+		        
+		    }
+			
+		
 		
 		
 	};
+	//Checks if it has duplicates
 	// Returns the ballot number
 	public int getBallotNum() {
 		return ballotNumber;
@@ -67,6 +92,7 @@ public class Ballot {
 		for(List<Integer> data: cRanksID) {
 			if(data.get(0).equals(candidateId)) {
 				int byeCandidateRank = data.get(1);
+				this.Candidates.get(1).setActive(false);
 				cRanksID.remove(data);
 				
 				for(List<Integer> nData: cRanksID) {

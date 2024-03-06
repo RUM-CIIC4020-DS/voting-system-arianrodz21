@@ -245,6 +245,8 @@ public class StudentTester {
 			}
 			
 		}
+	}
+}
 		@Nested
 		@DisplayName("Election Tests")
 		public class ElectionTests {

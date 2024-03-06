@@ -1,6 +1,12 @@
 package main;
 
+import main.Ballot;
+import main.Candidate;
+import main.Election;
+
+
 public class Election {
+	public Election() {}
 	/* Constructor that receives the name of the candidate and ballot files and applies
 	the election logic. Note: The files should be found in the input folder. */
 	public Election(String candidates_filename, String ballot_filename) {};
@@ -12,8 +18,11 @@ public class Election {
 	public int getTotalInvalidBallots() {};
 	// returns the total amount of blank ballots
 	public int getTotalBlankBallots() {};
+	
 	// returns the total amount of valid ballots
-	public int getTotalValidBallots() {};
+	public int getTotalValidBallots() {
+		if(getBallotType() == 0) {}
+	};
 	/* List of names for the eliminated candidates with the numbers of 1s they had,
 	must be in order of elimination. Format should be <candidate name>-<number of 1s
 	when eliminated>*/

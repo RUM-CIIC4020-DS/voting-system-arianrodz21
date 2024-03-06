@@ -6,23 +6,28 @@ public class Candidate {
 	String name;
 	
 	
+	
 	public Candidate(String line) {
 		String[] temp = line.split(",");
-		id = Integer.valueOf(temp[0]);
-		name = temp[1];
+		id = Integer.valueOf(temp[0].trim());
+		name = temp[1].trim();
 		
 	};
 	// returns the candidate’s id
 	public int getId() {
-		return id;
+		return this.id;
 	};
 	// Whether the candidate is still active in the election
 	public boolean isActive() {
-		return active; //to be fixed
+		return this.active; //to be fixed
 	};
 	// return the candidates name
 	public String getName() {
 		return name;
 	}; 
+	public void setActive(boolean itActive){
+		this.active = itActive;
+	}
+	
 
 }
