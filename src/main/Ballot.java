@@ -4,7 +4,7 @@ import data_structures.ArrayList;
 import interfaces.List;
 
 public class Ballot {
-	List<Candidate>  Candidates;
+	List<Candidate>  candidates = new ArrayList<Candidate>();
 	int ballotNumber;
 	int validType = 0;
 	List<List<Integer>> cRanksID = new ArrayList<List<Integer>>();
@@ -15,6 +15,10 @@ public class Ballot {
 	id#,candidate_name:candidate_rank . It also receives a List of all the candidates in the
 	elections.*/
 	public Ballot(String line, List<Candidate> candidates) {
+		for (int i = 0; i < candidates.size(); i++) {
+			this.candidates.add(candidates.get(i));
+		}
+		
 		String[] temp = line.split(",");
 		ballotNumber = Integer.valueOf(temp[0]);
 		
@@ -93,7 +97,7 @@ public class Ballot {
 		for(List<Integer> data: cRanksID) {
 			if(data.get(0).equals(candidateId)) {
 				int byeCandidateRank = data.get(1);
-				this.Candidates.get(1).setActive(false);
+				this.candidates.get(1).setActive(false);
 				cRanksID.remove(data);
 				
 				for(List<Integer> nData: cRanksID) {
