@@ -7,8 +7,6 @@ import java.io.IOException;
 import data_structures.ArrayList;
 import interfaces.List;
 
-import main.Ballot;
-import main.Candidate;
 import main.Election;
 
 
@@ -16,16 +14,29 @@ public class Election {
 	int invalidBallots;
 	int blankBallots;
 	int totalBallots;
-	Candidate winner;
+	Candidate winner = null;
 	List<Candidate> candidates = new ArrayList<Candidate>();
 	List<Ballot> validBallots = new ArrayList<Ballot>();
 	List<Ballot> ballots = new ArrayList<Ballot>();
 	List<String> eliminatedCandidates = new ArrayList<String>();
 	List<List<Integer>> candidateRanks;
 	
-	public Election() {
-		
-	}
+	public Election() throws IOException {
+		BufferedReader brCF = new BufferedReader(new FileReader("inputFiles/candidates.csv"));
+		String dataCF;
+		while((dataCF = brCF.readLine()) != null) {
+			candidates.add(new Candidate(dataCF));
+		}
+		BufferedReader brBF = new BufferedReader(new FileReader("inputFiles/ballots.csv"));
+		String dataBF;
+		while((dataBF = brBF.readLine()) != null) {
+			Ballot ballot = new Ballot(dataBF,candidates);
+			ballots.add(ballot);
+			if (ballot.getBallotType() == 0) {
+				validBallots.add(ballot);
+			}
+		}
+	};
 	/* Constructor that receives the name of the candidate and ballot files and applies
 	the election logic. Note: The files should be found in the input folder. */
 	public Election(String candidates_filename, String ballot_filename) throws IOException {
