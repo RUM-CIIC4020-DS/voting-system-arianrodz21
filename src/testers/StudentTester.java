@@ -114,6 +114,7 @@ public class StudentTester {
             @DisplayName("Creating Election")
             public void testConstructor1() throws IOException {
                 Election election = new Election();
+     
 
                 assertAll(
                         () -> assertTrue(election.getWinner().equals("Pepe Perez"), "Didn't get Correct winner."),
@@ -125,6 +126,7 @@ public class StudentTester {
                         () -> assertTrue(election.getEliminatedCandidates().get(1).equals("Juan Lopez-1"), "Didn't return correct eliminated candidate and/or count for this position"),
                         () -> assertTrue(election.getEliminatedCandidates().get(2).equals("Pucho Avellanet-3"), "Didn't return correct eliminated candidate and/or count for this position")
                 );
+                
             }
 
             // Similar corrections for the other Election test...

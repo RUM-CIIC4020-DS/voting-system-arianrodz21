@@ -19,9 +19,11 @@ public class Ballot {
 			this.candidates.add(candidates.get(i));
 		}
 		
+		//split the line on (",") and make the value an integer
 		String[] temp = line.split(",");
 		ballotNumber = Integer.valueOf(temp[0]);
 		
+		// checks if the ballot is blank
 		if(temp.length == 1) {
 			validType = 1;
 			
@@ -32,6 +34,7 @@ public class Ballot {
 			int id = Integer.valueOf(temp2[0]);
 			int rank = Integer.valueOf(temp2[1]);
 			
+			//creates a list to store ranks and ids together
 			List<Integer> ranksID = new ArrayList<Integer>();
 			
 			ranksID.add(id);
@@ -40,10 +43,12 @@ public class Ballot {
 			ranks.add(rank);
 			cRanksID.add(ranksID);
 			
+			// checks if the ballot is invalid
 			if(i != rank) {
 				validType = 2;
 			}
 		
+			// also checks if the ballot is invalid, by checking if there are duplicate ranks
 			for (int j = 0; j < ranks.size(); j++) {
 		            for (int h = j + 1; h < ranks.size(); h++) {
 		                if (ranks.get(j).equals(ranks.get(h))) {
@@ -51,6 +56,8 @@ public class Ballot {
 		                }
 		            }
 		        }
+			
+			// also checks if the ballot is invalid by checking if there are duplicate ids
 			for (int j = 0; j < ids.size(); j++) {
 	            for (int h = j + 1; h < ids.size(); h++) {
 	                if (ids.get(j).equals(ids.get(h))) {

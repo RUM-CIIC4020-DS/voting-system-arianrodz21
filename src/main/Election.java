@@ -20,6 +20,8 @@ public class Election {
 	List<Ballot> ballots = new ArrayList<Ballot>();
 	List<String> eliminatedCandidates = new ArrayList<String>();
 	List<List<Integer>> candidateRanks;
+	int maxVotes;
+	
 	
 	public Election() throws IOException {
 		this("candidates.csv", "ballots.csv");
@@ -27,6 +29,7 @@ public class Election {
 	/* Constructor that receives the name of the candidate and ballot files and applies
 	the election logic. Note: The files should be found in the input folder. */
 	public Election(String candidates_filename, String ballot_filename) throws IOException {
+		//reads the candidates information from the file
 		BufferedReader brCF = new BufferedReader(new FileReader("inputFiles/" + candidates_filename));
 		String dataCF;
 		while((dataCF = brCF.readLine()) != null) {
@@ -43,11 +46,9 @@ public class Election {
 		}
 		brCF.close();
 		brBF.close();
-		Ballot currentBallot;
-		Candidate currentCandidate;
 		int mostVotesIndex;
 		int currentRank;
-		List<Integer> leastVotesIndexs;
+		
 		List<Candidate> upForElimination = new ArrayList<Candidate>();
 		int roundNumber = 0;
 		int maxVotes;
@@ -55,6 +56,7 @@ public class Election {
 		for (Candidate c: candidates) {
 			activeCandidates.add(c);
 		}
+		//the rounds until a winner is declared
 		while (winner == null) {	
 			roundNumber++;
 			//  [3, 4, 12]
@@ -67,6 +69,7 @@ public class Election {
 				if (currentVotes.get(idx) > maxVotes){
 					mostVotesIndex = idx;
 					maxVotes = currentVotes.get(idx);
+			
 				}
 			}
 			// do they have more than 50% of votes?
@@ -130,7 +133,7 @@ public class Election {
 					}
 				}
 			}
-		
+
 		};
 	private List<Integer> computeScoresForRank(List<Ballot> ballots, List<Candidate> candidates, int rank){
 		List<Integer> currentVotes = new ArrayList<Integer>();
@@ -207,5 +210,5 @@ public class Election {
 	public List<String> getEliminatedCandidates(){
 		return eliminatedCandidates;
 	};
-
+	
 }
