@@ -22,107 +22,7 @@ public class Election {
 	List<List<Integer>> candidateRanks;
 	
 	public Election() throws IOException {
-		BufferedReader brCF = new BufferedReader(new FileReader("inputFiles/candidates.csv"));
-		String dataCF;
-		while((dataCF = brCF.readLine()) != null) {
-			candidates.add(new Candidate(dataCF));
-		}
-		BufferedReader brBF = new BufferedReader(new FileReader("inputFiles/ballots.csv"));
-		String dataBF;
-		while((dataBF = brBF.readLine()) != null) {
-			Ballot ballot = new Ballot(dataBF,candidates);
-			ballots.add(ballot);
-			if (ballot.getBallotType() == 0) {
-				validBallots.add(ballot);
-			}
-		}
-		Ballot currentBallot;
-		Candidate currentCandidate;
-		int mostVotesIndex;
-		int currentRank;
-		List<Integer> leastVotesIndexs;
-		List<Candidate> upForElimination = new ArrayList<Candidate>();
-		int roundNumber = 0;
-		int maxVotes;
-		List<Candidate> activeCandidates = new ArrayList<Candidate>();
-		for (Candidate c: candidates) {
-			activeCandidates.add(c);
-		}
-		while (winner == null) {	
-			roundNumber++;
-			//  [3, 4, 12]
-			// check if winner given current votes
-			List<Integer> currentVotes = computeScoresForRank(validBallots,activeCandidates,1);
-			// find the candidate with the most votes
-			maxVotes = 0;
-			mostVotesIndex = 0;
-			for (int idx = 0; idx < currentVotes.size(); idx++) {
-				if (currentVotes.get(idx) > maxVotes){
-					mostVotesIndex = idx;
-					maxVotes = currentVotes.get(idx);
-				}
-			}
-			// do they have more than 50% of votes?
-			if (maxVotes > (validBallots.size() / 2.0)) {
-				winner = candidates.get(mostVotesIndex);
-				break;
-			}
-			
-			// no? run elimination algorithm
-				List<Candidate> candidatesInElimRound = new ArrayList<Candidate>();
-				for (Candidate c: activeCandidates) {
-					candidatesInElimRound.add(c);
-				}
-				currentRank = 1;
-				while (currentRank <= activeCandidates.size()) {
-					List<Integer> currentElimVotes = computeScoresForRank(validBallots,candidatesInElimRound,currentRank);
-					// find what is the lowest number of votes for the current rank
-					int leastVotes = validBallots.size()+1; 
-					for (int idx = 0; idx< currentElimVotes.size(); idx++) {
-						if (currentElimVotes.get(idx) < leastVotes){
-							leastVotes = currentElimVotes.get(idx);
-						}
-					}
-					// find what candidates have the lowest number of votes
-					upForElimination.clear();
-					for (int idx = 0; idx< currentElimVotes.size(); idx++) {
-						if (currentElimVotes.get(idx) == leastVotes){
-							upForElimination.add(candidatesInElimRound.get(idx));
-						}
-					}
-					if (upForElimination.size() == 1) {
-						// delete them and move on to next round
-						eliminatedCandidates.add(upForElimination.get(0).getName() + "-" + computeScoreForRank(validBallots,upForElimination.get(0),1));
-//						System.out.println(upForElimination.get(0).getName() + "-" + computeScoreForRank(validBallots,upForElimination.get(0),1));
-						activeCandidates.remove(upForElimination.first());
-						for (Ballot ballot: validBallots) {
-							ballot.eliminate(upForElimination.first().getId());
-						}
-						break;
-					} else { // move on to next rank with the candidates
-						currentRank++;
-						candidatesInElimRound.clear();
-						for (Candidate c: upForElimination) {
-							candidatesInElimRound.add(c);
-						}
-					}
-				}
-				if (currentRank > activeCandidates.size()){
-					// ah fork, we have a tie all the way to the end, decide based on highest id
-					Candidate toEliminate = upForElimination.first();
-					for (int idx = 1; idx< upForElimination.size(); idx++) {
-						if (upForElimination.get(idx).getId() > toEliminate.getId()) {
-							toEliminate = upForElimination.get(idx);
-						}
-					}
-					eliminatedCandidates.add(toEliminate.getName() + "-" + computeScoreForRank(validBallots,toEliminate,1));
-//					System.out.println(toEliminate.getName() + "-" + computeScoreForRank(validBallots,toEliminate,1));
-					activeCandidates.remove(toEliminate);
-					for (Ballot ballot: validBallots) {
-						ballot.eliminate(toEliminate.getId());
-					}
-				}
-			}
+		this("candidates.csv", "ballots.csv");
 	};
 	/* Constructor that receives the name of the candidate and ballot files and applies
 	the election logic. Note: The files should be found in the input folder. */
@@ -141,6 +41,8 @@ public class Election {
 				validBallots.add(ballot);
 			}
 		}
+		brCF.close();
+		brBF.close();
 		Ballot currentBallot;
 		Candidate currentCandidate;
 		int mostVotesIndex;
