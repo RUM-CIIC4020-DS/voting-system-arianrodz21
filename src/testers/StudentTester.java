@@ -120,7 +120,7 @@ public class StudentTester {
 				candidates.add(new Candidate("9,Jimmy Neutron"));
 				candidates.add(new Candidate("10,Luz Noceda"));
 				Ballot ballot = new Ballot("489,9:1,7:2,10:3,5:4", candidates);
-	
+								
 				assertAll(
 						() -> assertTrue(ballot.getBallotNum() == 489, "Didn't assign id properly."),
 						() -> assertTrue(ballot.getBallotType() == 0,"Didn't assign correct ballot type to a valid ballot."),
@@ -212,7 +212,7 @@ public class StudentTester {
 				candidates.add(new Candidate("9,Jimmy Neutron"));
 				candidates.add(new Candidate("10,Luz Noceda"));
 				Ballot ballot = new Ballot("1256", candidates);
-	
+				
 				assertAll(
 						() -> assertTrue(ballot.getBallotNum() == 1256, "Didn't assign id properly."),
 						() -> assertTrue(ballot.getBallotType() == 1,"Didn't assign correct ballot type to a blank ballot.")
